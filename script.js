@@ -36,8 +36,8 @@ new Vue({
                 volume: 68
             },
             playlist: {
-                title: 'CattyBoard Top 100 Single Charts',
-                author: 'UnknownArtist',
+                title: 'Billboard Top 100 Single Charts',
+                author: 'ITIvanov18',
                 tracks: [{
                     title: 'One Dance',
                     artist: 'Drake (feat. Wizkid & Kyla)',
