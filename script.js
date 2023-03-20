@@ -48,13 +48,14 @@ new Vue({
                         large: 'https://desire2music.net/wp-content/uploads/2016/07/%D7%9C%D7%9C%D7%90-%D7%A9%D7%9D-2-1.jpg'
                     }
                 }, {
-                    title: 'Better',
-                    artist: 'Khalid',
-                    album: 'Suncity',
-                    duration: 256,
+                    title: 'Dangerous Woman',
+                    artist: 'Ariana Grande',
+                    album: 'Dangerous Woman',
+                    duration: 236,
                     cover: {
-                        small: 'https://assets.audiomack.com/tracyelle/adc04a484e2d7f74b99f9a530d12b534748185ebf02c53f6b59aefe406158161.jpeg?width=1000&height=1000&max=true',
-                        large: 'https://upload.wikimedia.org/wikipedia/en/8/82/Better_Khalid_Single_Cover.png'
+                        small: 'https://upload.wikimedia.org/wikipedia/en/4/4b/Ariana_Grande_-_Dangerous_Woman_%28Official_Album_Cover%29.png',
+                        large: 'https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/A1LRANDvjvL._UF1000,1000_QL80_.jpg'
+
                     }
                 }, {
                     title: 'Cant stop the feeling',
