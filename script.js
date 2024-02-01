@@ -33,7 +33,7 @@ new Vue({
                 playing: false,
                 repeat: false,
                 shuffle: true,
-                volume: 68
+                volume: 50
             },
             playlist: {
                 title: 'Billboard Top 100 Single Charts',
@@ -43,50 +43,61 @@ new Vue({
                     artist: 'Drake (feat. Wizkid & Kyla)',
                     album: 'View',
                     duration: 244,
+                    audio: 'AudioTracks_mp3/One Dance.mp3',
                     cover: {
                         small: 'https://cdns-images.dzcdn.net/images/cover/56bdb7a86a27fadb96332c0c8f1b8e81/500x500.jpg',
                         large: 'https://desire2music.net/wp-content/uploads/2016/07/%D7%9C%D7%9C%D7%90-%D7%A9%D7%9D-2-1.jpg'
                     }
                 }, {
-                    title: 'Dangerous Woman',
-                    artist: 'Ariana Grande',
-                    album: 'Dangerous Woman',
-                    duration: 236,
+                    title: 'good 4 u',
+                    artist: 'Olivia Rodrigo',
+                    album: 'Sour',
+                    duration: 198,
+                    audio: 'AudioTracks_mp3/good 4 u.mp3',
                     cover: {
-                        small: 'https://upload.wikimedia.org/wikipedia/en/4/4b/Ariana_Grande_-_Dangerous_Woman_%28Official_Album_Cover%29.png',
-                        large: 'https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/A1LRANDvjvL._UF1000,1000_QL80_.jpg'
-
+                        small: 'https://i.scdn.co/image/ab67616d0000b273a91c10fe9472d9bd89802e5a ',
+                        large: 'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/e678bd119570653.60a090a514e50.jpg'
                     }
                 }, {
                     title: 'Cant stop the feeling',
                     artist: 'Justin Timberlake',
                     album: '538 Hitzone 78',
                     duration: 207,
+                    audio: 'AudioTracks_mp3/Cant Stop The Feeling.mp3',
                     cover: {
                         small: 'https://upload.wikimedia.org/wikipedia/en/2/21/Justin_Timberlake_-_Can%27t_Stop_the_Feeling.png',
                         large: 'https://i1.sndcdn.com/artworks-000203903601-81vfv2-t500x500.jpg'
                     }
                 }, {
-                    title: 'Work from home',
-                    artist: 'Fifth Harmony',
-                    album: '7/27',
-                    duration: 225,
+                    title: 'STAY',
+                    artist: 'The Kid LAROI & Justin Bieber',
+                    album: 'STAY',
+                    duration: 142,
+                    audio: 'AudioTracks_mp3/STAY.mp3',
                     cover: {
-                        small: 'https://upload.wikimedia.org/wikipedia/en/f/f5/Work_From_Home_%28featuring_Ty_Dolla_%24ign%29_%28Official_Single_Cover%29_by_Fifth_Harmony.png',
-                        large: 'https://i1.sndcdn.com/artworks-hzGk6Eac78HLAvfo-BTHJQA-t500x500.jpg'
+                        small: 'https://static.wikia.nocookie.net/justin-bieber/images/7/75/STAY_Alternative_Cover_for_D2C.jpg/revision/latest?cb=20210824232555',
+                        large: 'https://i.scdn.co/image/ab67616d0000b27341e31d6ea1d493dd77933ee5'
                     }
                 }, {
-                    title: 'If it aint love',
-                    artist: 'Jason Derulo',
-                    album: 'Single',
-                    duration: 199,
+                    title: 'Stereo Love',
+                    artist: 'Edward Maya & Vika Jigulina',
+                    album: 'Stereo Love',
+                    duration: 249,
+                    audio: 'AudioTracks_mp3/Stereo Love.mp3',
                     cover: {
-                        small: 'https://upload.wikimedia.org/wikipedia/en/9/9b/Jason_Derulo_-_If_It_Ain%27t_Love.png',
-                        large: 'https://upload.wikimedia.org/wikipedia/en/9/9b/Jason_Derulo_-_If_It_Ain%27t_Love.png'
+                        small: 'https://i.scdn.co/image/ab67616d0000b273f204118fe356fda7fa84cd36',
+                        large: 'https://i.scdn.co/image/ab67616d0000b27363930afae902cae1ca1c65b9'
                     }
                 }]
-            }
+            },
+            audioElement: null  
         }
+    },
+    mounted() {
+        this.audioElement = document.createElement("audio");
+        this.audioElement.autoplay = true;
+        this.audioElement.addEventListener("ended", this.playNext);
+        document.body.appendChild(this.audioElement);
     },
     computed: {
         currentTrack: function() {
@@ -103,8 +114,17 @@ new Vue({
             
             return duration;
         }
-    },
+    },  
     methods: {
+        playAudio() {
+            this.audioElement.src = this.currentTrack.audio;
+            this.audioElement.oncanplaythrough = () => {
+                this.audioElement.volume = this.player.volume / 100; // Настройка на звука
+                this.audioElement.play();
+                this.player.playing = true;
+                this.audioElement.oncanplaythrough = null;
+            };
+        },
         pause: function() {
             if (!this.player.playing) {
                 return;
