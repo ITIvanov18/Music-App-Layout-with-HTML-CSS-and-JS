@@ -1,9 +1,8 @@
 console.clear();
 
 // Filters
-// =======
 
-Vue.filter('time', function(seconds) {
+Vue.filter('time', function (seconds) {
     var minutes = Math.floor(seconds / 60),
         seconds = Math.floor(seconds % 60);
 
@@ -14,18 +13,18 @@ Vue.filter('time', function(seconds) {
     return minutes + ':' + seconds;
 });
 
-Vue.filter('minutes', function(seconds) {
+Vue.filter('minutes', function (seconds) {
     var minutes = Math.floor(seconds / 60);
-    
+
     return minutes;
 })
 
 
 // App
-// =====
+
 new Vue({
     el: '.app',
-    data: function() {
+    data: function () {
         return {
             player: {
                 currentTrack: 0,
@@ -90,7 +89,7 @@ new Vue({
                     }
                 }]
             },
-            audioElement: null  
+            audioElement: null
         }
     },
     mounted() {
@@ -100,32 +99,32 @@ new Vue({
         document.body.appendChild(this.audioElement);
     },
     computed: {
-        currentTrack: function() {
+        currentTrack: function () {
             return this.playlist.tracks[this.player.currentTrack];
         },
-        playlistDuration: function() {
+        playlistDuration: function () {
             var duration = 0,
                 tracks = this.playlist.tracks,
                 i;
-            
+
             for (i = 0; i < tracks.length; i += 1) {
                 duration += tracks[i].duration;
             }
-            
+
             return duration;
         }
-    },  
+    },
     methods: {
         playAudio() {
             this.audioElement.src = this.currentTrack.audio;
             this.audioElement.oncanplaythrough = () => {
-                this.audioElement.volume = this.player.volume / 100; // Настройка на звука
+                this.audioElement.volume = this.player.volume / 100;
                 this.audioElement.play();
                 this.player.playing = true;
                 this.audioElement.oncanplaythrough = null;
             };
         },
-        pause: function() {
+        pause: function () {
             if (!this.player.playing) {
                 return;
             }
@@ -133,50 +132,50 @@ new Vue({
             clearInterval(this.timer);
             this.$set('timer', false);
         },
-        play: function() {
+        play: function () {
             if (this.player.playing) {
                 return;
             }
             var _this = this,
-                timer = setInterval(function() {
+                timer = setInterval(function () {
                     if (_this.player.elapsed >= _this.currentTrack.duration) {
                         _this.$set('player.elapsed', 0);
                         _this.skipForward();
                     }
                     _this.player.elapsed += .1;
                 }, 100);
-            
+
             this.$set('player.playing', true);
             this.$set('timer', timer);
         },
-        selectTrack: function(id) {
+        selectTrack: function (id) {
             this.$set('player.currentTrack', id);
             this.$set('player.elapsed', 0);
             this.play();
         },
-        skipForward: function() {
+        skipForward: function () {
             var track = this.player.currentTrack + 1;
-            
+
             track = track % this.playlist.tracks.length;
             this.selectTrack(track);
         },
-        skipBack: function() {
+        skipBack: function () {
             var track = this.player.currentTrack;
-            
+
             if (this.player.elapsed < 2) {
                 track = track - 1;
             }
-            
+
             if (track < 0) {
                 track = 0;
             }
-            
+
             this.selectTrack(track);
         },
-        toggleRepeat: function() {
+        toggleRepeat: function () {
             this.player.repeat = !this.player.repeat;
         },
-        toggleShuffle: function() {
+        toggleShuffle: function () {
             this.player.shuffle = !this.player.shuffle;
         }
     }
